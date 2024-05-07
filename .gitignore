@@ -1,0 +1,4 @@
+.vscode/
+.vendor/
+go-freecodecamp
+.env
