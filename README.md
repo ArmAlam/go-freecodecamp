@@ -7,3 +7,7 @@
 6. create database using `CREATE DATABASE TEST_DATABASE;`
 7. swtich to the database \c TEST_DATABASE
 8. now you can perform SQL against the database
+
+
+--------
+** sqlc generate --> generates type-safe code from SQL.
