@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/armalam/go-freecodecamp/internal/database"
+	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 )
 
@@ -57,5 +58,32 @@ func (apiCfg *apiConfig) handlerGetFeedFollows(w http.ResponseWriter, r *http.Re
 	}
 
 	responseWithJSON(w, 201, databaseFeedFollowsToFeedFollows(feedFollows))
+
+}
+
+func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+
+	feedFollowIdStr := chi.URLParam(r, "feedFollowID")
+
+	feedFollowId, err := uuid.Parse(feedFollowIdStr)
+
+	if err != nil {
+		responseWithError(w, 400, fmt.Sprintf("Could not Parse ID %v", err))
+
+		return
+	}
+
+	err = apiCfg.DB.DeleteFeedFollow(r.Context(), database.DeleteFeedFollowParams{
+		ID:     feedFollowId,
+		UserID: user.ID,
+	})
+
+	if err != nil {
+		responseWithError(w, 400, fmt.Sprintf("Could not Parse ID %v", err))
+
+		return
+	}
+
+	responseWithJSON(w, 200, struct{}{})
 
 }
